@@ -30,6 +30,11 @@ namespace Content.Features.CurrencySystem.Scripts.Visual
             _eventBus.Subscribe<OnMapContentInit>(InitCurrencyTilesPool);
         }
 
+        private void OnDestroy()
+        {
+            _eventBus.Unsubscribe<OnMapContentInit>(InitCurrencyTilesPool);
+        }
+
         private void InitCurrencyTilesPool(OnMapContentInit obj)
         {
             _pool = new GameObjectPool<ResourceTile>(_prefabFactory, prefab, poolParent ?? transform);

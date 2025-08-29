@@ -180,6 +180,8 @@ GameObject:
   - component: {fileID: 937750924}
   - component: {fileID: 937750923}
   - component: {fileID: 937750925}
+  - component: {fileID: 937750926}
+  - component: {fileID: 937750927}
   m_Layer: 0
   m_Name: ScriptsSetups
   m_TagString: Untagged
@@ -238,8 +240,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialResources:
   - currencyType: 1
-    amount: 10
+    amount: 5
+  - currencyType: 0
+    amount: 5
   stackOffsetY: 0.26
+--- !u!114 &937750926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937750922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddbbef6aab8b4a14afd2a0037e7282b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &937750927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937750922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e619fbd2737430cba953a6057b91e78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1357622521
 GameObject:
   m_ObjectHideFlags: 0

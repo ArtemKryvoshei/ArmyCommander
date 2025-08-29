@@ -25,6 +25,11 @@ namespace Content.Features.BuildingsSystem.Scripts
             _eventBus.Subscribe<OnBuildRequest>(TryBuild);
         }
 
+        private void OnDestroy()
+        {
+            _eventBus.Unsubscribe<OnBuildRequest>(TryBuild);
+        }
+
         private void TryBuild(OnBuildRequest obj)
         {
             Build(obj.buildingID);

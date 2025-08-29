@@ -26,6 +26,12 @@ namespace Content.Features.BuildingsSystem.Scripts
             _eventBus.Subscribe<OnBuildRequest>(TryHideMenu);
         }
 
+        private void OnDestroy()
+        {
+            _eventBus.Unsubscribe<OnChooseBuildingCall>(ShowMenu);
+            _eventBus.Unsubscribe<OnBuildRequest>(TryHideMenu);
+        }
+
         private void TryHideMenu(OnBuildRequest obj)
         {
             HideMenu();

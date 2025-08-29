@@ -1,6 +1,7 @@
 ﻿using Content.Features.BuildingsSystem.Scripts;
 using Content.Features.CurrencySystem.Scripts;
 using Content.Features.MapLoader.Scripts;
+using Content.Features.UnitsSystem.Scripts;
 using UnityEngine;
 
 namespace Core.Other
@@ -51,5 +52,40 @@ namespace Core.Other
     public struct OnBuildRequest
     {
         public int buildingID;
+    }
+    
+    //Battle system
+
+    public struct OnNewCampTargeted
+    {
+        public Vector3 position;
+    }
+
+    public struct OnChargeCalled { }
+
+    public struct OnPrepareAllyUnits { }
+
+    public struct HealthChangedEvent
+    {
+        public IUnit Unit;
+        public float Current;
+        public float Max;
+
+        public HealthChangedEvent(IUnit unit, float current, float max)
+        {
+            Unit = unit;
+            Current = current;
+            Max = max;
+        }
+    }
+
+    public struct UnitDiedEvent
+    {
+        public IUnit Unit;
+
+        public UnitDiedEvent(IUnit unit)
+        {
+            Unit = unit;
+        }
     }
 }

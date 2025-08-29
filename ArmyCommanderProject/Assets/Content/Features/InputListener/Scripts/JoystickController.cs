@@ -20,7 +20,12 @@ namespace Content.Features.InputListener.Scripts
             _eventBus = ServiceLocator.Get<IEventBus>();
             _eventBus.Subscribe<ScreenTouchedEvent>(OnScreenTouched);
         }
-        
+
+        private void OnDestroy()
+        {
+            _eventBus.Unsubscribe<ScreenTouchedEvent>(OnScreenTouched);
+        }
+
         private void OnScreenTouched(ScreenTouchedEvent evt)
         {
             if (evt.Position != Vector2.zero)

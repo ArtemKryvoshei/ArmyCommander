@@ -22,10 +22,7 @@ namespace Content.Features.CameraControll.Scripts
 
         private void OnDestroy()
         {
-            if (_eventBus != null)
-            {
-                _eventBus.Unsubscribe<OnPlayerSpawned>(OnPlayerSpawned);
-            }
+            _eventBus.Unsubscribe<OnPlayerSpawned>(OnPlayerSpawned);
         }
 
         private void LateUpdate()

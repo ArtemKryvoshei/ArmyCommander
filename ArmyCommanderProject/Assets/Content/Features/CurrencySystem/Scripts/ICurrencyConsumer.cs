@@ -13,5 +13,6 @@ namespace Content.Features.CurrencySystem.Scripts
         public void Init(CurrencyType type, int amount);
 
         public void ResetProgress();
+        public void ResetProgressWithDelay(float delay);
     }
 }

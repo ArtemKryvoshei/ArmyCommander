@@ -43,5 +43,10 @@ namespace Content.Features.PickupableObject.Scripts
                 Debug.Log("[PickupableObject] Pickup " + gameObject.name);
             }
         }
+
+        public void ResetPickable()
+        {
+            _picked = false;
+        }
     }
 }

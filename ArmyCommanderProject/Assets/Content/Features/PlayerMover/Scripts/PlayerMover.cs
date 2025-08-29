@@ -18,13 +18,29 @@ namespace Content.Features.PlayerMover.Scripts
         private void Awake()
         {
             _eventBus = ServiceLocator.Get<IEventBus>();
-            _eventBus.Subscribe<JoystickMoveEvent>(evt => _currentDirection = evt.Direction);
-            _eventBus.Subscribe<JoystickReleasedEvent>(_ => _currentDirection = Vector2.zero);
+            _eventBus.Subscribe<JoystickMoveEvent>(ReadJoystickMove);
+            _eventBus.Subscribe<JoystickReleasedEvent>(ReadJoystickRelease);
 
             if (cameraTransform == null && Camera.main != null)
                 cameraTransform = Camera.main.transform;
 
             _rigidbody = GetComponent<Rigidbody>();
+        }
+
+        private void ReadJoystickRelease(JoystickReleasedEvent obj)
+        {
+            _currentDirection = Vector2.zero;
+        }
+
+        private void ReadJoystickMove(JoystickMoveEvent obj)
+        {
+            _currentDirection = obj.Direction;
+        }
+
+        private void OnDestroy()
+        {
+            _eventBus.Unsubscribe<JoystickMoveEvent>(ReadJoystickMove);
+            _eventBus.Unsubscribe<JoystickReleasedEvent>(ReadJoystickRelease);
         }
 
         private void FixedUpdate() 

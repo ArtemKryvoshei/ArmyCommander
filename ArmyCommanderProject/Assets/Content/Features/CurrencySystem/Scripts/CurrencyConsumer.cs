@@ -1,5 +1,6 @@
 ﻿using System;
 using Content.Features.CurrencySystem.Scripts.Visual;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -37,7 +38,14 @@ namespace Content.Features.CurrencySystem.Scripts
         {
             alreadyConsumedAmount = 0;
             consumeTimer = 0;
+            consumingResources = false;
             OnConsumerChanged?.Invoke();
+        }
+
+        public async void ResetProgressWithDelay(float delay)
+        {
+            await UniTask.Delay(TimeSpan.FromSeconds(delay));
+            ResetProgress();
         }
 
         private void LateUpdate()
@@ -67,7 +75,6 @@ namespace Content.Features.CurrencySystem.Scripts
 
         private void OnTriggerEnter(Collider other)
         {
-            //if game object is on _consumeableLayerMask layer, then set consumingResources to true, and get IPlayerBackpack
             if (((1 << other.gameObject.layer) & _consumeableLayerMask) != 0)
             {
                 currentPlayerBackpack = other.GetComponent<IPlayerBackpack>();
@@ -81,7 +88,6 @@ namespace Content.Features.CurrencySystem.Scripts
 
         private void OnTriggerExit(Collider other)
         {
-            //if game object is on _consumeableLayerMask layer, then set consumingResources to false, currentPlayerBackpack set to null
             if (((1 << other.gameObject.layer) & _consumeableLayerMask) != 0)
             {
                 var backpack = other.GetComponent<IPlayerBackpack>();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Core.EventBus;
 using Core.Other;
 using Core.PrefabFactory;
@@ -30,6 +31,12 @@ namespace Content.Features.CurrencySystem.Scripts.Visual
             _eventBus = ServiceLocator.Get<IEventBus>();
             _eventBus.Subscribe<OnMapContentInit>(InitSpawnPoint);
             _eventBus.Subscribe<OnPlayerSpawned>(_ => CallResourceSpawn());
+        }
+
+        private void OnDestroy()
+        {
+            _eventBus.Unsubscribe<OnMapContentInit>(InitSpawnPoint);
+            _eventBus.Unsubscribe<OnPlayerSpawned>(_ => CallResourceSpawn());
         }
 
         private void InitSpawnPoint(OnMapContentInit obj)

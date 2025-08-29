@@ -26,6 +26,11 @@ namespace Content.Features.PlayerRespawner.Scripts
             _eventBus.Subscribe<OnMapContentInit>(InitRespawner);
         }
 
+        private void OnDestroy()
+        {
+            _eventBus.Unsubscribe<OnMapContentInit>(InitRespawner);
+        }
+
         private void InitRespawner(OnMapContentInit obj)
         {
             if (obj.activeMap != null)

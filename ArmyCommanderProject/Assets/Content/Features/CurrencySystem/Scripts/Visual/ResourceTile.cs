@@ -1,6 +1,7 @@
 ﻿using Core.PoolSystem;
 using Core.ServiceLocatorSystem;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Content.Features.CurrencySystem.Scripts.Visual
 {
@@ -8,6 +9,8 @@ namespace Content.Features.CurrencySystem.Scripts.Visual
     {
         [SerializeField] private CurrencyType currencyType;
         [SerializeField] private int amount = 1;
+        public UnityEvent OnSpawnedUE;
+        public UnityEvent OnDespawnedUE;
         
         public CurrencyType CurrencyType => currencyType;
         private ICurrencyManager _currencyManager;
@@ -27,11 +30,13 @@ namespace Content.Features.CurrencySystem.Scripts.Visual
         
         public void OnSpawned()
         {
+            OnSpawnedUE?.Invoke();
             gameObject.SetActive(true);
         }
 
         public void OnDespawned()
         {
+            OnDespawnedUE?.Invoke();
             gameObject.SetActive(false);
         }
     }
