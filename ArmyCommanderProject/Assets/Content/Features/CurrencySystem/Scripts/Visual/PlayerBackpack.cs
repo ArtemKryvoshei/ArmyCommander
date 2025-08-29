@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core.PrefabFactory;
 using Core.ServiceLocatorSystem;
 using UnityEngine;
@@ -13,9 +14,11 @@ namespace Content.Features.CurrencySystem.Scripts.Visual
         
         private readonly List<ResourceTile> _carriedTiles = new();
         private IPoolRegistry _poolRegistry;
+        private ICurrencyManager _currencyManager;
 
         private void Awake()
         {
+            _currencyManager = ServiceLocator.Get<ICurrencyManager>();
             _poolRegistry = ServiceLocator.Get<IPoolRegistry>();
             ServiceLocator.Register<IPlayerBackpack>(this);
         }
@@ -28,16 +31,17 @@ namespace Content.Features.CurrencySystem.Scripts.Visual
             tile.transform.localPosition = new Vector3(0, _carriedTiles.Count * stackOffsetY, 0);
             tile.transform.localRotation = Quaternion.identity;
         }
-        
-        public bool TryGiveTile(CurrencyType type, out ResourceTile tile)
+
+        public bool GiveTile(CurrencyType type)
         {
-            tile = _carriedTiles.FindLast(t => t.CurrencyType == type);
-            if (tile == null)
-                return false;
+            var tile = _carriedTiles.FirstOrDefault(t => t.CurrencyType == type);
+            if (tile == null) return false;
 
             _carriedTiles.Remove(tile);
-
-            // вернуть плитку в пул
+            ReStackTiles();
+            
+            _currencyManager.SubtractCurrency(type, 1);
+            
             foreach (var pool in _poolRegistry.GetAllPoolsOfType<ResourceTile>())
             {
                 if (pool.Prefab.CurrencyType == type)
@@ -49,7 +53,19 @@ namespace Content.Features.CurrencySystem.Scripts.Visual
 
             return false;
         }
-        
+
+        public bool GiveTile(CurrencyType type, int amount)
+        {
+            if (_carriedTiles.Count(t => t.CurrencyType == type) < amount)
+                return false;
+
+            for (int i = 0; i < amount; i++)
+            {
+                GiveTile(type);
+            }
+            return true;
+        }
+
         public void ClearAll()
         {
             foreach (var tile in _carriedTiles)
@@ -64,6 +80,15 @@ namespace Content.Features.CurrencySystem.Scripts.Visual
                 }
             }
             _carriedTiles.Clear();
+        }
+        
+        private void ReStackTiles()
+        {
+            for (int i = 0; i < _carriedTiles.Count; i++)
+            {
+                var tile = _carriedTiles[i];
+                tile.transform.localPosition = new Vector3(0, (i + 1) * stackOffsetY, 0);
+            }
         }
     }
 }

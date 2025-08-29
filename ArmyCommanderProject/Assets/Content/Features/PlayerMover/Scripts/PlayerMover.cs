@@ -8,11 +8,12 @@ namespace Content.Features.PlayerMover.Scripts
 {
     public class PlayerMover : MonoBehaviour
     {
-        [SerializeField] private float moveSpeed = 5f;
-        
+        [SerializeField] private float moveSpeed = 4f;
+    
         private Transform cameraTransform;
         private Vector2 _currentDirection;
         private IEventBus _eventBus;
+        private Rigidbody _rigidbody;
 
         private void Awake()
         {
@@ -22,9 +23,11 @@ namespace Content.Features.PlayerMover.Scripts
 
             if (cameraTransform == null && Camera.main != null)
                 cameraTransform = Camera.main.transform;
+
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
-        private void Update()
+        private void FixedUpdate() 
         {
             if (_currentDirection != Vector2.zero)
             {
@@ -38,11 +41,13 @@ namespace Content.Features.PlayerMover.Scripts
                 camRight.Normalize();
                 
                 Vector3 move = camRight * _currentDirection.x + camForward * _currentDirection.y;
-                move *= moveSpeed * Time.deltaTime;
+                move *= moveSpeed * Time.fixedDeltaTime;
 
-                transform.position += move;
-                
-                transform.forward = move.normalized;
+                // Двигаем Rigidbody
+                _rigidbody.MovePosition(_rigidbody.position + move);
+
+                // Поворот игрока в сторону движения
+                _rigidbody.MoveRotation(Quaternion.LookRotation(move.normalized));
             }
         }
     }

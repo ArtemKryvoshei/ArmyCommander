@@ -4,5 +4,6 @@
     {
         public const int LOAD_SCREEN_ADDITIONAL_WAIT = 2;
         public const string MAP_SAVE_KEY = "SavedMap";
+        public const string CONSUME_TXT_SEPARATOR = "/";
     }
 }

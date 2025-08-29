@@ -1,4 +1,5 @@
-﻿using Content.Features.CurrencySystem.Scripts;
+﻿using Content.Features.BuildingsSystem.Scripts;
+using Content.Features.CurrencySystem.Scripts;
 using Content.Features.MapLoader.Scripts;
 using UnityEngine;
 
@@ -41,4 +42,14 @@ namespace Core.Other
         }
     }
 
+    //BuildSystem
+    public struct OnChooseBuildingCall
+    {
+        public BuildManager buildManager;
+    }
+
+    public struct OnBuildRequest
+    {
+        public int buildingID;
+    }
 }
